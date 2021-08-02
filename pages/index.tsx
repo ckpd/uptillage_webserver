@@ -7,31 +7,31 @@ import {
   faSun,
   faLeaf,
   faTemperatureHigh,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import { withStyles } from "@material-ui/core";
-import { MainLayout } from "../layouts/MainLayout";
-import socketIOClient from "socket.io-client";
-import { useEffect, useState } from "react";
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { withStyles } from '@material-ui/core';
+import { MainLayout } from '../layouts/MainLayout';
+import socketIOClient from 'socket.io-client';
+import { useEffect, useState } from 'react';
 
 const SERVER = `${process.env.NEXT_PUBLIC_API_SERVER}`;
 
 function Index() {
   const [_data, setData] = useState({
-    temperature: "00",
-    soiltemperature: "00",
-    humidity: "00",
-    moisture: "00",
-    fahrenheit: "00",
-    created_at: "00-00-00 00:00:00",
+    temperature: '00',
+    soiltemperature: '00',
+    humidity: '00',
+    moisture: '00',
+    fahrenheit: '00',
+    created_at: '00-00-00 00:00:00',
   });
 
   useEffect(() => {
     const socket = socketIOClient(SERVER);
 
-    socket.on("changed", (data: any) => {
-      console.log(data);
+    socket.on('changed', (data: any) => {
+      // console.log(data);
       if (data) {
         setData({
           ..._data,

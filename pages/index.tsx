@@ -1,16 +1,11 @@
 import {
-  faLightbulb,
   faWater,
-  faWind,
-  faCloud,
-  faChevronRight,
   faSun,
   faLeaf,
   faTemperatureHigh,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { withStyles } from '@material-ui/core';
 import { MainLayout } from '../layouts/MainLayout';
 import socketIOClient from 'socket.io-client';
 import { useEffect, useState } from 'react';
@@ -33,6 +28,7 @@ function Index() {
     socket.on('changed', (data: any) => {
       // console.log(data);
       if (data) {
+        const d = new Date(data.created_at);
         setData({
           ..._data,
           temperature: data.celcius,
@@ -40,7 +36,7 @@ function Index() {
           humidity: data.humidity,
           moisture: data.moisture,
           fahrenheit: data.fahrenheit,
-          created_at: data.created_at,
+          created_at: d.toLocaleString(),
         });
       }
     });
@@ -52,8 +48,12 @@ function Index() {
 
   return (
     <div>
-      <div className="pb-8 text-right text-sm">
-        lastupdated: {_data.created_at}
+      <div className="pb-8 w-full   text-sm">
+        <div className="w-full"> </div>
+        <div className="w-full text-right">
+          {' '}
+          lastupdated: {_data.created_at}
+        </div>
       </div>
 
       <div className="container mx-auto grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 capitalize">
@@ -68,7 +68,10 @@ function Index() {
                 />
               </div>
               <div className="p-4">
-                <LinearProgress variant="determinate" value={50} />
+                <LinearProgress
+                  variant="determinate"
+                  value={(Number(_data.moisture) / 1000) * 100}
+                />
               </div>
 
               <div className="p-4 ">
@@ -88,7 +91,10 @@ function Index() {
                 />
               </div>
               <div className="p-4">
-                <LinearProgress variant="determinate" value={50} />
+                <LinearProgress
+                  variant="determinate"
+                  value={(Number(_data.soiltemperature) / 35.7) * 100}
+                />
               </div>
 
               <div className="p-4 ">
